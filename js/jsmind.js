@@ -16,6 +16,8 @@
     // author
     var __author__ = 'hizzgdev@163.com';
 
+    var __theme__ = '';
+
     // an noop function define
     var _noop = function(){};
     var logger = (typeof console === 'undefined')?{
@@ -383,6 +385,7 @@
                 }
 
                 if(node.parent.isroot){
+                    // if(direction == jsMind.direction.left){
                     if(direction == jm.direction.left){
                         node.direction = direction;
                     }else{
@@ -473,7 +476,8 @@
                 "meta":{
                     "name":__name__,
                     "author":__author__,
-                    "version":__version__
+                    "version":__version__,
+                    "theme":__theme__
                 },
                 "format":"node_tree",
                 "data":{"id":"root","topic":"jsMind Example"}
@@ -484,6 +488,7 @@
                 mind.name = source.meta.name;
                 mind.author = source.meta.author;
                 mind.version = source.meta.version;
+                mind.theme = source.meta.theme;
                 df._parse(mind,source.data);
                 return mind;
             },
@@ -493,7 +498,8 @@
                 json.meta = {
                     name : mind.name,
                     author : mind.author,
-                    version : mind.version
+                    version : mind.version,
+                    theme: mind.theme
                 };
                 json.format = 'node_tree';
                 json.data = df._buildnode(mind.root);
@@ -586,6 +592,7 @@
                 mind.name = source.meta.name;
                 mind.author = source.meta.author;
                 mind.version = source.meta.version;
+                mind.theme = source.meta.theme;
                 df._parse(mind,source.data);
                 return mind;
             },
@@ -1318,7 +1325,8 @@
             return {
                 name : this.mind.name,
                 author : this.mind.author,
-                version : this.mind.version
+                version : this.mind.version,
+                theme : this.mind.theme
             };
         },
 
@@ -1647,6 +1655,10 @@
                 logger.error('fail, this mind map is not editable');
                 return null;
             }
+        },
+
+        set_meta_theme:function(theme){
+            this.mind.theme = theme
         },
 
         resize:function(){
@@ -2753,7 +2765,14 @@
             if(this.jm.view.is_editing()){return;}
             var evt = e || event;
             if(!this.opts.enable){return true;}
-            var kc = evt.keyCode;
+            var kc = '';
+            if (evt.ctrlKey) {
+                kc = kc + 'ctrl'
+            }
+            if (evt.shiftKey) {
+                kc = kc + 'shift'
+            }
+            kc = kc + evt.keyCode
             if(kc in this._mapping){
                 this._mapping[kc].call(this,this.jm,e);
             }

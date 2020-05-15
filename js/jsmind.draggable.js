@@ -6,7 +6,7 @@
  *   https://github.com/hizzgdev/jsmind/
  */
 
-(function($w){
+(function($w, obj){
     'use strict';
     var $d = $w.document;
     var __name__ = 'jsMind';
